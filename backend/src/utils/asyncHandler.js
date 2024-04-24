@@ -1,9 +1,10 @@
-export default asyncHandler = (reqHandler) => {
+const asyncHandler = (reqHandler) => {
     return (req, res, next) => {
         Promise.resolve(reqHandler(req, res, next)).catch((err) => {
-            console.log("something  is wrong while using asynchandler")
-            next(err)
-        })
-    }
-}
+            console.error("An error occurred while using asyncHandler:", err);
+            next(err);
+        });
+    };
+};
 
+export default asyncHandler;
