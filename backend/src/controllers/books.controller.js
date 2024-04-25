@@ -1,6 +1,6 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from '../utils/ApiError.js'
-import fs from 'fs'
+import fs, { unlinkSync } from 'fs'
 import Book from "../models/books.model.js";
 import ApiResponse from '../utils/ApiResponse.js'
 
@@ -40,6 +40,103 @@ const createBook = asyncHandler(async (req, res) => {
     )
 })
 
+const getAllBook = asyncHandler(async (req, res) => {
+    const AllBook = await Book.find()
+    res.status(200).json(
+        new ApiResponse(200, AllBook, "All book fetched successfully")
+    )
+})
+
+const getSingleBook = asyncHandler(async (req, res) => {
+    // console.log(req.params)
+    const { _id } = req.params
+
+    try {
+        const singleBook = await Book.findOne({ _id })
+        if (singleBook) {
+            res.status(200).json(
+                new ApiResponse(200, singleBook, " single book fetched successfully")
+            )
+        } else {
+            res.status(200).json(
+                new ApiResponse(200, {}, "Book not found")
+            )
+        }
+    } catch (error) {
+        throw new ApiError(400, "Book not found")
+    }
+})
+
+const updateBook = asyncHandler(async (req, res) => {
+    const { _id } = req.params
+    const { bookName, bookPrice, isbnNumber, authorName, publication } = req.body
+    let updatedBook = {}
+    try {
+        if (req.file) {
+            const { originalname, mimetype, destination, filename, path } = req.file
+            const BookFind = await Book.findById(_id)
+            console.log(BookFind)
+            updatedBook = await Book.findByIdAndUpdate(_id, {
+                $set: {
+
+                    bookName,
+                    bookPrice,
+                    isbnNumber,
+                    publication,
+                    authorName,
+                    bookImage: filename
+
+                }
+            }, {
+                new: true
+            })
+
+            console.log(BookFind)
+            unlinkSync(`src/storage/${BookFind.bookImage}`)
+
+        }
+        else {
+            updatedBook = await Book.findByIdAndUpdate(_id, {
+                $set: {
+
+                    bookName,
+                    bookPrice,
+                    isbnNumber,
+                    publication,
+                    authorName,
+
+                }
+            }, {
+                new: true
+            })
+        }
+
+        res.status(200).json(
+            new ApiResponse(200, updatedBook, "Book updated successfully")
+        )
+    } catch (error) {
+        throw new ApiError(400, "something is wrong while updating", error)
+    }
+})
+
+const DeleteBook = asyncHandler(async (req, res) => {
+    const { _id } = req.params
+    try {
+        const hel = await Book.findById({ _id: _id })
+        console.log(hel.bookImage)
+        fs.unlinkSync(`src/storage/${hel.bookImage}`)
+        await Book.findByIdAndDelete(_id)
+        res.status(200).json(
+            new ApiResponse(200, {}, "Book Deleted successfully")
+        )
+    } catch (error) {
+        throw new ApiError(400, "Book not found", error)
+    }
+})
 export {
-    createBook
+    createBook,
+    getAllBook,
+    DeleteBook,
+    getSingleBook,
+    updateBook
 }
