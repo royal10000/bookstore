@@ -18,7 +18,7 @@ const DeleteBook = () => {
         }
 
         deleteBook()
-    }, [_id])
+    },[])
     return (
 
         <>
