@@ -4,8 +4,7 @@ import axios from "axios";
 
 const Books = () => {
     const [books, setBooks] = useState([]);
-
-    const fetchBook = async () => {
+    const FetchBook = async () => {
         try {
             return await axios.get('http://localhost:8000/book/');
             // return response.data; // Return the data from the response
@@ -14,11 +13,13 @@ const Books = () => {
         }
     };
 
+
     useEffect(() => {
-        fetchBook().then((value) => {
+        FetchBook().then((value) => {
             return value.data
         }).then((res) => {
             const data = res.data
+            console.log(data)
             setBooks(data)
         }).catch((error) => {
             throw new Error("Something is wrong while fetching data from database or during promise", error)
@@ -38,13 +39,14 @@ const Books = () => {
 
     return (
         <>
-            <div className="container m-auto   pb-16 pt-28 xl:mx-auto lg:px-8 xl:max-w-7xl flex flex-wrap-reverse justify-between  ">
+            <div className="container xl:m-auto   pb-16 pt-28 xl:mx-auto lg:px-8 xl:max-w-7xl flex flex-wrap xl:justify-between   ">
                 {
-                    books.map((value,index) => {
+                    books.length > 0 ? books.map((value, index) => {
+                        console.log(value)
                         return <Card key={index} data={value} />
-                    })
+                    }) : "no book available"
                 }
-                
+
             </div>
         </>
     );

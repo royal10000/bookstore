@@ -6,7 +6,6 @@ import ApiResponse from '../utils/ApiResponse.js'
 
 
 const createBook = asyncHandler(async (req, res) => {
-    console.log(req.file)
     const { originalname, mimetype, destination, filename, path } = req.file
 
     const { bookName, bookPrice, isbnNumber, authorName, publication } = req.body
@@ -26,13 +25,14 @@ const createBook = asyncHandler(async (req, res) => {
     }
 
 
+    const bookImage = `http://localhost:8000/${filename}`
     const createdBook = await Book.create({
         bookName: bookName,
         bookPrice: bookPrice,
         isbnNumber: isbnNumber,
         publication: publication,
         authorName: authorName,
-        bookImage: filename
+        bookImage: bookImage
     })
 
     res.status(200).json(
@@ -48,7 +48,6 @@ const getAllBook = asyncHandler(async (req, res) => {
 })
 
 const getSingleBook = asyncHandler(async (req, res) => {
-    // console.log(req.params)
     const { _id } = req.params
 
     try {
@@ -75,7 +74,7 @@ const updateBook = asyncHandler(async (req, res) => {
         if (req.file) {
             const { originalname, mimetype, destination, filename, path } = req.file
             const BookFind = await Book.findById(_id)
-            console.log(BookFind)
+            const bookImage = `http://localhost:8000/${filename}`
             updatedBook = await Book.findByIdAndUpdate(_id, {
                 $set: {
 
@@ -84,15 +83,14 @@ const updateBook = asyncHandler(async (req, res) => {
                     isbnNumber,
                     publication,
                     authorName,
-                    bookImage: filename
+                    bookImage: bookImage
 
                 }
             }, {
                 new: true
             })
 
-            console.log(BookFind)
-            unlinkSync(`src/storage/${BookFind.bookImage}`)
+            // unlinkSync(`src/storage/${BookFind.bookImage}`)
 
         }
         else {
@@ -123,7 +121,6 @@ const DeleteBook = asyncHandler(async (req, res) => {
     const { _id } = req.params
     try {
         const hel = await Book.findById({ _id: _id })
-        console.log(hel.bookImage)
         fs.unlinkSync(`src/storage/${hel.bookImage}`)
         await Book.findByIdAndDelete(_id)
         res.status(200).json(

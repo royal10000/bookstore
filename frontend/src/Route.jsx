@@ -6,6 +6,10 @@ import Error from './Page/Error'
 import Service from './Page/Service'
 import ContactForm from './Component/ContactForm'
 import Books from './Page/Books'
+import AddBook from './Page/AddBook'
+import SingleBook from './Page/SingleBook'
+import EditBook from './Page/EditBook'
+import SingleEdit from './Page/SingleEdit'
 export const Router = createBrowserRouter([{
     path: "/",
     element: <Layout />,
@@ -28,7 +32,24 @@ export const Router = createBrowserRouter([{
         },
         {
             path: "/books",
-            element: <Books />
+            element: <Books />,
+        },
+        {
+            path: "/add-book",
+            element: <AddBook />,
+        },
+        {
+            path: "/edit-book",
+            element: <EditBook />,
+        },
+        {
+            path: "/edit-book/:id",
+            element: <SingleEdit />,
+        },
+       
+        {
+            path: "/books/:_id",
+            element: <SingleBook />,
         },
         {
             path: "*",

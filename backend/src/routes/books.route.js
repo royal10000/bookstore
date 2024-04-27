@@ -7,7 +7,7 @@ bookRouter.route("/").post(upload.single('bookImage'), createBook)
 bookRouter.route("/").get(getAllBook)
 bookRouter.route('/:_id').get(getSingleBook)
 bookRouter.route('/:_id').delete(DeleteBook)
-bookRouter.route("/:_id").patch(upload.single('bookImage'),updateBook)
+bookRouter.route("/:_id").patch(upload.single('bookImage'), updateBook)
 
 export {
     bookRouter
