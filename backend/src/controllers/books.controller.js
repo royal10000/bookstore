@@ -119,9 +119,15 @@ const updateBook = asyncHandler(async (req, res) => {
 
 const DeleteBook = asyncHandler(async (req, res) => {
     const { _id } = req.params
+    console.log(_id)
     try {
         const hel = await Book.findById({ _id: _id })
-        fs.unlinkSync(`src/storage/${hel.bookImage}`)
+        // console.log(hel)
+        const { bookImage } = hel
+        console.log(bookImage)
+        const imgUrl = bookImage.replace('http://localhost:8000/', "")
+
+        fs.unlinkSync(`src/storage/${imgUrl}`)
         await Book.findByIdAndDelete(_id)
         res.status(200).json(
             new ApiResponse(200, {}, "Book Deleted successfully")
