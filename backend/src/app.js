@@ -17,6 +17,12 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }))
+
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    next();
+  });
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 app.use(express.static(__dirname + '/storage'))

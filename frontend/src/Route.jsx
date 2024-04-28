@@ -9,9 +9,7 @@ import Books from './Page/Books'
 import AddBook from './Page/AddBook'
 import SingleBook from './Page/SingleBook'
 import EditBook from './Page/EditBook'
-import SingleEdit from './Page/SingleEdit'
-import DeleteBook from './Page/DeleteBook'
-export const Router = createBrowserRouter([{
+    export const Router = createBrowserRouter([{
     path: "/",
     element: <Layout />,
     children: [
@@ -42,14 +40,6 @@ export const Router = createBrowserRouter([{
         {
             path: "/edit-book",
             element: <EditBook />,
-        },
-        {
-            path: "/edit-book/:id",
-            element: <SingleEdit />,
-        },
-        {
-            path: "/delete-book/:_id",
-            element: <DeleteBook />,
         },
         {
             path: "/books/:_id",

@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import DeleteBook from "./DeleteBook"
+import EditButton from "./EditButton"
 
 const Hell = (data, key) => {
     const { _id, bookName, bookPrice, authorName, bookImage, publication } = data.data
@@ -21,8 +22,8 @@ const Hell = (data, key) => {
                 {authorName}
             </td>
             <td className="px-6 py-4 flex gap-4">
-                <Link to={`/edit-book/${_id}`} className="font-medium bg-blue-600 text-white dark:text-white hover:underline rounded-md px-2 py-1">Edit</Link>
-                <Link to={`/delete-book/${_id}`} className="font-medium bg-red-600 dark:text-white hover:underline rounded-md px-2 py-1">Delete</Link>
+                <EditButton id={`${_id}`} />
+                <DeleteBook id={`${_id}`} />
             </td>
         </tr>
     )

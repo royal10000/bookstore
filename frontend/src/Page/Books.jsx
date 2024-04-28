@@ -6,7 +6,7 @@ const Books = () => {
     const [books, setBooks] = useState([]);
     const FetchBook = async () => {
         try {
-            return await axios.get('http://localhost:8000/book/');
+            return await axios.get(`${import.meta.env.VITE_LOCALHOST_URI}/book/`);
             // return response.data; // Return the data from the response
         } catch (error) {
             throw new Error("Error fetching data: " + error.message);
@@ -19,7 +19,6 @@ const Books = () => {
             return value.data
         }).then((res) => {
             const data = res.data
-            console.log(data)
             setBooks(data)
         }).catch((error) => {
             throw new Error("Something is wrong while fetching data from database or during promise", error)

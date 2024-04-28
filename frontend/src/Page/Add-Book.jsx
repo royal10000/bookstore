@@ -21,7 +21,7 @@ const Add_Book = () => {
       formData.append('authorName', authorName);
       formData.append('publication', publication);
 
-      await axios.post('http://localhost:8000/book', formData, {
+      await axios.post(`${import.meta.env.LOCALHOST_URI}/book`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

@@ -29,7 +29,7 @@ const AddBook = () => {
 
             })
             formData.append('bookImage', bookImage)
-            const response = await axios.post('http://localhost:8000/book', formData, {
+            const response = await axios.post(`${import.meta.env.VITE_LOCALHOST_URI}/book`, formData, {
 
                 headers: {
                     "Content-Type": "multipart/form-data"
